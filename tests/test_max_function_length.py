@@ -56,3 +56,12 @@ def test_decorator_is_ignored():
     )
 
     assert len(errors) == 0
+
+
+def test_pass_function_is_processed():
+    errors = run_validator_for_test_file(
+        filename='file_pass_function.py',
+        max_function_length=1,
+    )
+
+    assert len(errors) == 0
