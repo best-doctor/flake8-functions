@@ -26,7 +26,7 @@ class FunctionChecker:
             function_last_statement = getattr(function_last_statement, 'body')[-1]
         func_def_info = {
             'name': func_def.name,
-            'lineno': function_start_row,
+            'lineno': func_def.lineno,
             'col_offset': func_def.col_offset,
             'length': function_last_statement.lineno - function_start_row + 1,
         }
