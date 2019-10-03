@@ -1,6 +1,8 @@
 # flake8-functions
 
 [![Build Status](https://travis-ci.org/best-doctor/flake8-functions.svg?branch=master)](https://travis-ci.org/best-doctor/flake8-functions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4cdbd67833752665ee79/maintainability)](https://codeclimate.com/github/best-doctor/flake8-functions/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/4cdbd67833752665ee79/test_coverage)](https://codeclimate.com/github/best-doctor/flake8-functions/test_coverage)
 
 
 An extension for flake8 to report on issues with functions.
