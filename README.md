@@ -12,6 +12,7 @@ One of the issues we've encountered is functions that are more that two screens 
 
 The validator checks for:
 * CFQ001 - function length (default max length is 100)
+* CFQ002 - function arguments number (default max arguments amount is 6)
 
 
 ## Installation
@@ -69,6 +70,7 @@ Tested on Python 3.6 and 3.7.2 and flake8 3.7.5.
 | Error code |                     Description                                                                    |
 |:----------:|:--------------------------------------------------------------------------------------------------:|
 |   CFQ001   | Function "some_function" has length <function_length> that exceeds max allowed length <max_length> |
+|   CFQ002   | Function "some_function" has <args_amount> arguments that exceeds max allowed <max_args_amount>    |
 
 
 ## Contributing

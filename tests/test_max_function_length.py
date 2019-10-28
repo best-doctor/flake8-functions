@@ -65,3 +65,12 @@ def test_pass_function_is_processed():
     )
 
     assert len(errors) == 0
+
+
+def test_shows_error_for_too_much_arguments():
+    errors = run_validator_for_test_file(
+        filename='file_with_lots_of_arguments.py',
+        max_parameters_amount=3,
+    )
+
+    assert len(errors) == 3

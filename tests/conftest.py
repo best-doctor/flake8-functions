@@ -4,7 +4,7 @@ import os
 from flake8_functions.checker import FunctionChecker
 
 
-def run_validator_for_test_file(filename, max_function_length=None):
+def run_validator_for_test_file(filename, max_function_length=None, max_parameters_amount=None):
     test_file_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
         'test_files',
@@ -16,5 +16,7 @@ def run_validator_for_test_file(filename, max_function_length=None):
     checker = FunctionChecker(tree=tree, filename=filename)
     if max_function_length is not None:
         checker.max_function_length = max_function_length
+    if max_parameters_amount is not None:
+        checker.max_parameters_amount = max_parameters_amount
 
     return list(checker.run())
