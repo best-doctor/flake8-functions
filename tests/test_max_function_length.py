@@ -76,10 +76,17 @@ def test_shows_error_for_too_much_arguments():
     assert len(errors) == 3
 
 
-def test_dosctrings_are_not_part_of_function_length():
+@pytest.mark.parametrize(
+    'max_function_length, expected_errors_count',
+    [
+        (4, 0),
+        (3, 1),
+    ],
+)
+def test_dosctrings_are_not_part_of_function_length(max_function_length, expected_errors_count):
     errors = run_validator_for_test_file(
         filename='file_with_docstring.py',
-        max_function_length=4,
+        max_function_length=max_function_length,
     )
 
-    assert len(errors) == 0
+    assert len(errors) == expected_errors_count

@@ -27,14 +27,12 @@ class FunctionChecker:
         func_def: Union[ast.FunctionDef, ast.AsyncFunctionDef],
     ) -> Dict[str, Any]:
         function_start_row = cls._get_function_start_row(func_def)
-        function_last_statement = func_def.body[-1]
-        while hasattr(function_last_statement, 'body'):
-            function_last_statement = getattr(function_last_statement, 'body')[-1]
+        function_last_row = cls._get_function_last_row(func_def)
         func_def_info = {
             'name': func_def.name,
             'lineno': func_def.lineno,
             'col_offset': func_def.col_offset,
-            'length': function_last_statement.lineno - function_start_row + 1,
+            'length': function_last_row - function_start_row + 1,
         }
         return func_def_info
 
@@ -77,6 +75,15 @@ class FunctionChecker:
         ):  # First expression is docstring - we ignore it
             first_meaningful_expression_index = 1
         return func_def.body[first_meaningful_expression_index].lineno
+
+    @staticmethod
+    def _get_function_last_row(func_def: AnyFuncdef) -> int:
+        function_last_line = 0
+        for statement in ast.walk(func_def):
+            if hasattr(statement, 'lineno'):
+                function_last_line = max(statement.lineno, function_last_line)
+
+        return function_last_line
 
     @classmethod
     def _get_arguments_amount_error(cls, func_def: AnyFuncdef, max_parameters_amount: int) -> Tuple[int, int, str]:
