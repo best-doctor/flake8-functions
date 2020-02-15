@@ -21,10 +21,12 @@ class FunctionChecker:
         self.filename = filename
         self.tree = tree
 
-    @staticmethod
+    @classmethod
     def _get_function_length(
+        cls,
         func_def: Union[ast.FunctionDef, ast.AsyncFunctionDef],
     ) -> Dict[str, Any]:
+        docstring_length = cls._get_docstring_length(func_def)
         function_start_row = func_def.body[0].lineno  # We ignore decorators and signature
         function_last_statement = func_def.body[-1]
         while hasattr(function_last_statement, 'body'):
@@ -33,7 +35,7 @@ class FunctionChecker:
             'name': func_def.name,
             'lineno': func_def.lineno,
             'col_offset': func_def.col_offset,
-            'length': function_last_statement.lineno - function_start_row + 1,
+            'length': function_last_statement.lineno - docstring_length - function_start_row + 1,
         }
         return func_def_info
 
@@ -65,6 +67,16 @@ class FunctionChecker:
         if args.kwarg:
             arguments_amount += 1
         return arguments_amount
+
+    @staticmethod
+    def _get_docstring_length(func_def: AnyFuncdef) -> int:
+        if (
+            isinstance(func_def.body[0], ast.Expr)
+            and isinstance(func_def.body[0].value, ast.Constant)
+            and isinstance(func_def.body[0].value.value, str)
+        ):
+            return len(func_def.body[0].value.value.split('\n'))
+        return 0
 
     @classmethod
     def _get_arguments_amount_error(cls, func_def: AnyFuncdef, max_parameters_amount: int) -> Tuple[int, int, str]:

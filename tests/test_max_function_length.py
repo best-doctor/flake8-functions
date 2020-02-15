@@ -74,3 +74,12 @@ def test_shows_error_for_too_much_arguments():
     )
 
     assert len(errors) == 3
+
+
+def test_dosctrings_are_not_part_of_function_length():
+    errors = run_validator_for_test_file(
+        filename='file_with_docstring.py',
+        max_function_length=4,
+    )
+
+    assert len(errors) == 0
