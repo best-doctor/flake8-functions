@@ -26,8 +26,7 @@ class FunctionChecker:
         cls,
         func_def: Union[ast.FunctionDef, ast.AsyncFunctionDef],
     ) -> Dict[str, Any]:
-        docstring_length = cls._get_docstring_length(func_def)
-        function_start_row = func_def.body[0].lineno  # We ignore decorators and signature
+        function_start_row = cls._get_function_start_row(func_def)
         function_last_statement = func_def.body[-1]
         while hasattr(function_last_statement, 'body'):
             function_last_statement = getattr(function_last_statement, 'body')[-1]
@@ -35,7 +34,7 @@ class FunctionChecker:
             'name': func_def.name,
             'lineno': func_def.lineno,
             'col_offset': func_def.col_offset,
-            'length': function_last_statement.lineno - docstring_length - function_start_row + 1,
+            'length': function_last_statement.lineno - function_start_row + 1,
         }
         return func_def_info
 
@@ -69,14 +68,15 @@ class FunctionChecker:
         return arguments_amount
 
     @staticmethod
-    def _get_docstring_length(func_def: AnyFuncdef) -> int:
+    def _get_function_start_row(func_def: AnyFuncdef) -> int:
+        first_meaningful_expression_index = 0
         if (
             isinstance(func_def.body[0], ast.Expr)
-            and isinstance(func_def.body[0].value, ast.Constant)
-            and isinstance(func_def.body[0].value.value, str)
-        ):
-            return len(func_def.body[0].value.value.split('\n'))
-        return 0
+            and isinstance(func_def.body[0].value, ast.Str)
+            and len(func_def.body) > 1
+        ):  # First expression is docstring - we ignore it
+            first_meaningful_expression_index = 1
+        return func_def.body[first_meaningful_expression_index].lineno
 
     @classmethod
     def _get_arguments_amount_error(cls, func_def: AnyFuncdef, max_parameters_amount: int) -> Tuple[int, int, str]:
