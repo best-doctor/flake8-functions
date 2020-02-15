@@ -22,6 +22,18 @@ def get_long_description() -> str:
 setup(
     name=package_name,
     description='A flake8 extension that checks functions',
+    classifiers=[
+        'Environment :: Console',
+        'Framework :: Flake8',
+        'Operating System :: OS Independent',
+        'Topic :: Software Development :: Documentation',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Software Development :: Quality Assurance',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+    ],
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
     packages=find_packages(),
