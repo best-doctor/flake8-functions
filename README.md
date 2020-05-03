@@ -68,13 +68,10 @@ that exceeds max allowed length 20
 
 ## Error codes
 
-| Error code |                     Description                                |
-|:----------:|:--------------------------------------------------------------:|
-|   CFQ001   | Function "some_function" has length %function_length% that     |
-|            | exceeds max allowed length %max_length%                        |
-|:----------:|:--------------------------------------------------------------:|
-|   CFQ002   | Function "some_function" has %args_amount$ arguments that      |
-|            | exceeds max allowed %max_args_amount%                          |
+| Error code |                     Description                                                                    |
+|:----------:|:--------------------------------------------------------------------------------------------------:|
+|   CFQ001   | Function "some_function" has length %function_length% that exceeds max allowed length %max_length% |
+|   CFQ002   | Function "some_function" has %args_amount% arguments that exceeds max allowed %max_args_amount%    |
 
 ## Contributing
 
