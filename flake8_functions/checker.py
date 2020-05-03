@@ -8,11 +8,11 @@ AnyFuncdef = Union[ast.FunctionDef, ast.AsyncFunctionDef]
 
 
 class FunctionChecker:
-    name = 'flake8-functions'
-    version = version
-
     DEFAULT_MAX_FUNCTION_LENGTH = 100
     DEFAULT_MAX_FUNCTION_ARGUMENTS_AMOUNT = 6
+
+    name = 'flake8-functions'
+    version = version
 
     max_function_length = DEFAULT_MAX_FUNCTION_LENGTH
     max_parameters_amount = DEFAULT_MAX_FUNCTION_ARGUMENTS_AMOUNT
