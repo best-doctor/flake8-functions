@@ -21,21 +21,6 @@ class FunctionChecker:
         self.filename = filename
         self.tree = tree
 
-    @classmethod
-    def _get_function_length(
-        cls,
-        func_def: Union[ast.FunctionDef, ast.AsyncFunctionDef],
-    ) -> Dict[str, Any]:
-        function_start_row = cls._get_function_start_row(func_def)
-        function_last_row = cls._get_function_last_row(func_def)
-        func_def_info = {
-            'name': func_def.name,
-            'lineno': func_def.lineno,
-            'col_offset': func_def.col_offset,
-            'length': function_last_row - function_start_row + 1,
-        }
-        return func_def_info
-
     @staticmethod
     def _get_length_errors(
         func_def_info: Dict[str, Any],
@@ -84,6 +69,21 @@ class FunctionChecker:
                 function_last_line = max(statement.lineno, function_last_line)
 
         return function_last_line
+
+    @classmethod
+    def _get_function_length(
+        cls,
+        func_def: Union[ast.FunctionDef, ast.AsyncFunctionDef],
+    ) -> Dict[str, Any]:
+        function_start_row = cls._get_function_start_row(func_def)
+        function_last_row = cls._get_function_last_row(func_def)
+        func_def_info = {
+            'name': func_def.name,
+            'lineno': func_def.lineno,
+            'col_offset': func_def.col_offset,
+            'length': function_last_row - function_start_row + 1,
+        }
+        return func_def_info
 
     @classmethod
     def _get_arguments_amount_error(cls, func_def: AnyFuncdef, max_parameters_amount: int) -> Tuple[int, int, str]:
