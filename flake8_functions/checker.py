@@ -2,7 +2,7 @@ import ast
 from typing import Generator, Tuple, List, Dict, Any, Union
 
 from flake8_functions import __version__ as version
-
+from flake8_functions.purity_function import check_purity_of_functions
 
 AnyFuncdef = Union[ast.FunctionDef, ast.AsyncFunctionDef]
 
@@ -127,7 +127,13 @@ class FunctionChecker:
                 func_def_info, self.max_function_length,
             ):
                 yield lineno, col_offset, error_msg, type(self)
-            error_info = self._get_arguments_amount_error(func_def, self.max_parameters_amount)
-            if error_info:
-                full_error_info = *error_info, type(self)
-                yield full_error_info
+
+            error_amount_info = self._get_arguments_amount_error(func_def, self.max_parameters_amount)
+            if error_amount_info:
+                full_error_amounnt_info = *error_amount_info, type(self)
+                yield full_error_amounnt_info
+
+            error_pure_info = check_purity_of_functions(func_def)
+            if error_pure_info:
+                full_error_pure_infog = *error_pure_info, type(self)
+                yield full_error_pure_infog
