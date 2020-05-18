@@ -90,3 +90,19 @@ def test_dosctrings_are_not_part_of_function_length(max_function_length, expecte
     )
 
     assert len(errors) == expected_errors_count
+
+
+def test_function_purity():
+    errors = run_validator_for_test_file(
+        filename='file_pure_function.py',
+    )
+
+    assert len(errors) == 0
+
+
+def test_not_function_purity():
+    errors = run_validator_for_test_file(
+        filename='file_not_pure_function.py',
+    )
+
+    assert len(errors) == 1
