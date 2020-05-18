@@ -42,7 +42,7 @@ setup(
     version=get_version(),
     author='Valery Pavlov',
     author_email='lerikpav@gmail.com',
-    install_requires=['setuptools', 'pytest'],
+    install_requires=['setuptools', 'pytest', 'mr-proper'],
     entry_points={
         'flake8.extension': [
             'CFQ = flake8_functions.checker:FunctionChecker',
