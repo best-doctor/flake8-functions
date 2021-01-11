@@ -2,7 +2,8 @@ pytest-cov==2.8.1
 pydocstyle==5.0.2
 flake8==3.7.9
 flake8-2020==1.6.0
-flake8-annotations-complexity==0.0.4
+# flake8-annotations-complexity==0.0.6
+git+git://github.com/best-doctor/flake8-annotations-complexity.git@v0.0.6
 flake8-blind-except==0.1.1
 flake8-broken-line==0.2.0
 flake8-bugbear==20.1.4
@@ -22,8 +23,7 @@ flake8-tidy-imports==4.1.0
 flake8-typing-imports==1.9.0
 flake8-variables-names==0.0.3
 mr-proper==0.0.5
-mypy==0.770
-mypy-extensions==0.4.3
+mypy==0.790
 safety==1.9.0
 dlint==0.10.3
 flake8-if-statements==0.1.0
