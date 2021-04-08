@@ -62,6 +62,7 @@ def test_pass_function_is_processed():
     errors = run_validator_for_test_file(
         filename='file_pass_function.py',
         max_function_length=1,
+        max_returns_amount=0,
     )
 
     assert len(errors) == 0
@@ -106,3 +107,41 @@ def test_not_function_purity():
     )
 
     assert len(errors) == 1
+
+
+@pytest.mark.parametrize(
+    'max_returns_amount, expected_errors_count',
+    [
+        (10, 0),
+        (5, 0),
+        (4, 1),
+        (2, 1),
+        (0, 1),
+    ],
+)
+def test_too_much_returns(max_returns_amount, expected_errors_count):
+    errors = run_validator_for_test_file(
+        filename='file_with_lots_of_returns.py',
+        max_returns_amount=max_returns_amount,
+    )
+
+    assert len(errors) == expected_errors_count
+
+
+@pytest.mark.parametrize(
+    'max_returns_amount, expected_errors_count',
+    [
+        (10, 0),
+        (5, 0),
+        (4, 1),
+        (1, 1),
+        (0, 5),  # because nested functions have errors
+    ],
+)
+def test_nested_defs_with_returns(max_returns_amount, expected_errors_count):
+    errors = run_validator_for_test_file(
+        filename='file_with_nested_defs.py',
+        max_returns_amount=max_returns_amount,
+    )
+
+    assert len(errors) == expected_errors_count

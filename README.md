@@ -17,6 +17,7 @@ The validator checks for:
 * CFQ001 - function length (default max length is 100)
 * CFQ002 - function arguments number (default max arguments amount is 6)
 * CFQ003 - function is not pure.
+* CFQ004 - function returns number (default max returns amount is 3)
 
 ## Installation
 
@@ -74,7 +75,7 @@ that exceeds max allowed length 20
 |   CFQ001   | Function "some_function" has length %function_length% that exceeds max allowed length %max_length% |
 |   CFQ002   | Function "some_function" has %args_amount% arguments that exceeds max allowed %max_args_amount%    |
 |   CFQ003   | Function "some_function" is not pure.                                                              |
-
+|   CFQ004   | Function "some_function" has %returns_amount% returns that exceeds max allowed %max_returns_amount%|
 ## Code prerequisites
 
 1. Python 3.7+;
