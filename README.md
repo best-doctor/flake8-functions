@@ -76,6 +76,7 @@ that exceeds max allowed length 20
 |   CFQ002   | Function "some_function" has %args_amount% arguments that exceeds max allowed %max_args_amount%    |
 |   CFQ003   | Function "some_function" is not pure.                                                              |
 |   CFQ004   | Function "some_function" has %returns_amount% returns that exceeds max allowed %max_returns_amount%|
+
 ## Code prerequisites
 
 1. Python 3.7+;
