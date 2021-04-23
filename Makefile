@@ -14,7 +14,7 @@ readme:
 	mdl README.md
 
 requirements:
-	safety check -r requirements.txt
+	safety check -r requirements_dev.txt
 
 check:
 	make style
