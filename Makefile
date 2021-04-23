@@ -1,6 +1,23 @@
-check:
-	flake8 .
-	mypy .
+test:
+	python -m pytest
+
+coverage:
 	python -m pytest --cov=flake8_functions --cov-report=xml
-	mdl --style=.mdlrc.rb README.md
-	safety check -r requirements_dev.txt
+
+types:
+	mypy .
+
+style:
+	flake8 .
+
+readme:
+	mdl README.md
+
+requirements:
+	safety check -r requirements.txt
+
+check:
+	make style
+	make types
+	make test
+	make requirements
