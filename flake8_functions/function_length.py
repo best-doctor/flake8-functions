@@ -28,11 +28,11 @@ def get_function_last_row(func_def: AnyFuncdef) -> int:
 def get_length_errors(func_def: AnyFuncdef, max_function_length: int) -> Tuple[int, int, str]:
     function_start_row = get_function_start_row(func_def)
     function_last_row = get_function_last_row(func_def)
-    function_lenght = function_last_row - function_start_row + 1
-    if function_lenght > max_function_length:
+    function_length = function_last_row - function_start_row + 1
+    if function_length > max_function_length:
         return (
             func_def.lineno,
             func_def.col_offset,
-            f'CFQ001 Function {func_def.name} has length {function_lenght}'
+            f'CFQ001 Function {func_def.name} has length {function_length}'
             f' that exceeds max allowed length {max_function_length}',
         )

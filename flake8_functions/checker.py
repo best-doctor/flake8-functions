@@ -4,7 +4,7 @@ from typing import Generator, Tuple, Union, List
 
 from flake8_functions import __version__ as version
 from flake8_functions.function_purity import check_purity_of_functions
-from flake8_functions.function_lenght import get_length_errors
+from flake8_functions.function_length import get_length_errors
 from flake8_functions.function_arguments_amount import get_arguments_amount_error
 from flake8_functions.function_returns_amount import get_returns_amount_error
 
