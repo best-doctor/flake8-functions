@@ -23,7 +23,7 @@ flake8-typing-imports==1.9.0
 flake8-variables-names==0.0.3
 mr-proper==0.0.7
 mypy==0.921
-safety==1.10.3
+safety==2.3.1
 dlint==0.12.0
 flake8-if-statements==0.1.0
 flake8-functions==0.0.6
