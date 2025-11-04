@@ -9,7 +9,8 @@ def get_function_start_row(func_def: AnyFuncdef) -> int:
     first_meaningful_expression_index = 0
     if (
         isinstance(func_def.body[0], ast.Expr)
-        and isinstance(func_def.body[0].value, ast.Str)
+        and isinstance(func_def.body[0].value, ast.Constant)
+        and isinstance(func_def.body[0].value.value, str)
         and len(func_def.body) > 1
     ):  # First expression is docstring - we ignore it
         first_meaningful_expression_index = 1
