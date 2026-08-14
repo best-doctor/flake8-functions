@@ -1,0 +1,24 @@
+{
+  "config": {
+    "default": true,
+    // Keep the 120-char limit the old .mdlrc.rb used.
+    "MD013": { "line_length": 120 },
+    // README uses repeated "1.", issue templates use 1./2./3. — allow both.
+    "MD029": { "style": "one_or_ordered" },
+    // CHANGELOG repeats "Added"/"Fixed"/... under every release heading.
+    "MD024": { "siblings_only": true }
+  },
+  "globs": ["**/*.md"],
+  // Everything generated or vendored: these hold third-party markdown we do not own.
+  "ignores": [
+    "node_modules",
+    ".venv",
+    "venv",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "*.egg-info"
+  ]
+}

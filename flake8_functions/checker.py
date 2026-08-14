@@ -1,14 +1,17 @@
+import argparse
 import ast
 import functools
-from typing import Generator, Tuple, Union, List
+from collections.abc import Callable, Generator
+from typing import Any
 
 from flake8_functions import __version__ as version
-from flake8_functions.function_purity import check_purity_of_functions
-from flake8_functions.function_length import get_length_errors
 from flake8_functions.function_arguments_amount import get_arguments_amount_error
+from flake8_functions.function_length import get_length_errors
+from flake8_functions.function_purity import check_purity_of_functions
 from flake8_functions.function_returns_amount import get_returns_amount_error
+from flake8_functions.type_defs import AnyFuncdef, FunctionError
 
-AnyFuncdef = Union[ast.FunctionDef, ast.AsyncFunctionDef]
+Validator = Callable[[AnyFuncdef], FunctionError | None]
 
 
 class FunctionChecker:
@@ -23,12 +26,12 @@ class FunctionChecker:
     max_parameters_amount = DEFAULT_MAX_FUNCTION_ARGUMENTS_AMOUNT
     max_returns_amount = DEFAULT_MAX_FUNCTION_RETURNS_AMOUNT
 
-    def __init__(self, tree, filename: str):
+    def __init__(self, tree: ast.AST, filename: str) -> None:
         self.filename = filename
         self.tree = tree
 
     @classmethod
-    def add_options(cls, parser) -> None:
+    def add_options(cls, parser: Any) -> None:
         parser.add_option(
             '--max-function-length',
             type=int,
@@ -49,25 +52,27 @@ class FunctionChecker:
         )
 
     @classmethod
-    def parse_options(cls, options) -> None:
+    def parse_options(cls, options: argparse.Namespace) -> None:
         cls.max_function_length = int(options.max_function_length)
         cls.max_parameters_amount = int(options.max_parameters_amount)
         cls.max_returns_amount = int(options.max_returns_amount)
 
-    def run(self) -> Generator[Tuple[int, int, str, type], None, None]:
-        validators: List = [
-            functools.partial(get_arguments_amount_error, max_parameters_amount=self.max_parameters_amount),
+    def run(self) -> Generator[tuple[int, int, str, type], None, None]:
+        validators: list[Validator] = [
+            functools.partial(
+                get_arguments_amount_error,
+                max_parameters_amount=self.max_parameters_amount,
+            ),
             functools.partial(get_length_errors, max_function_length=self.max_function_length),
             check_purity_of_functions,
             functools.partial(get_returns_amount_error, max_returns_amount=self.max_returns_amount),
         ]
         functions = [
-            n for n in ast.walk(self.tree)
-            if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+            node for node in ast.walk(self.tree)
+            if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef)
         ]
         for func_def in functions:
             for validator_callable in validators:
-                validator_errors: Tuple[int, int, str] = validator_callable(func_def)
+                validator_errors = validator_callable(func_def)
                 if validator_errors:
-                    full_error_info = *validator_errors, type(self)
-                    yield full_error_info
+                    yield *validator_errors, type(self)

@@ -1,0 +1,133 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flake8-functions"
+description = "A flake8 extension that checks functions"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["flake8", "linter", "functions"]
+authors = [{ name = "Valery Pavlov", email = "lerikpav@gmail.com" }]
+dynamic = ["version"]
+classifiers = [
+    "Environment :: Console",
+    "Framework :: Flake8",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/best-doctor/flake8-functions"
+Source = "https://github.com/best-doctor/flake8-functions"
+Issues = "https://github.com/best-doctor/flake8-functions/issues"
+
+[project.entry-points."flake8.extension"]
+CFQ = "flake8_functions.checker:FunctionChecker"
+
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "security" },
+]
+test = [
+    "pytest>=8.4",
+    "pytest-cov>=6.1",
+    "pytest-mock>=3.14",
+]
+lint = [
+    "flake8>=7.3",
+    "flake8-pyproject>=1.2.4",
+    "flake8-2020>=1.8.1",
+    "flake8-annotations-complexity>=0.2",
+    "flake8-annotations-coverage>=0.0.6",
+    "flake8-blind-except>=0.2.1",
+    "flake8-broken-line>=1.0",
+    "flake8-bugbear>=24.12",
+    "flake8-builtins>=2.5",
+    "flake8-class-attributes-order>=0.3",
+    "flake8-comprehensions>=3.16",
+    "flake8-debugger>=4.1.2",
+    "flake8-docstrings>=1.7",
+    "flake8-eradicate>=1.5",
+    "flake8-fixme>=1.1.1",
+    "flake8-print>=5.0",
+    "flake8-quotes>=3.4",
+    "flake8-string-format>=0.4",
+    "flake8-tidy-imports>=4.11",
+    "flake8-typing-imports>=1.16",
+    "flake8-variables-names>=0.0.6",
+    "dlint>=0.16",
+    "mypy>=1.15",
+    "pre-commit>=4.2",
+]
+security = ["pip-audit>=2.9"]
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.dynamic]
+version = { attr = "flake8_functions.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["flake8_functions*"]
+
+[tool.flake8]
+max-complexity = 8
+max-line-length = 100
+# `ignore` (not `extend-ignore`) on purpose: it replaces flake8's default-ignore
+# list, keeping E121/E123/E126/E226/E704/W504 enforced as they were before.
+ignore = ["W503", "P103", "D"]
+exclude = [".git", "__pycache__", "build", "dist", ".venv", "venv", "tests/test_files"]
+max-annotations-complexity = 4
+min-python-version = "3.10"
+ban-relative-imports = true
+inline-quotes = "'"
+multiline-quotes = "'"
+docstring-quotes = '"""'
+per-file-ignores = [
+    # Test names legitimately contain "pure", which would trip CFQ003.
+    "tests/*:CFQ001,CFQ002,CFQ003,TAE001",
+]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_untyped_defs = true
+exclude = "^(build|dist|venv|\\.venv|tests)/"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"
+# Fail only on deprecations raised from our own code (this is what would have
+# caught the `ast.Str` removal early). Dependency deprecations stay warnings so
+# an unrelated upstream release cannot turn the whole suite red.
+filterwarnings = [
+    "error::DeprecationWarning:flake8_functions",
+    "error::DeprecationWarning:tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["flake8_functions"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]

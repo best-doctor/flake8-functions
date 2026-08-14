@@ -1,8 +1,6 @@
 # flake8-functions
 
-[![Build Status](https://travis-ci.org/best-doctor/flake8-functions.svg?branch=master)](https://travis-ci.org/best-doctor/flake8-functions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4cdbd67833752665ee79/maintainability)](https://codeclimate.com/github/best-doctor/flake8-functions/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/4cdbd67833752665ee79/test_coverage)](https://codeclimate.com/github/best-doctor/flake8-functions/test_coverage)
+[![Build Status](https://github.com/best-doctor/flake8-functions/actions/workflows/ci.yml/badge.svg)](https://github.com/best-doctor/flake8-functions/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/flake8-functions.svg?)](https://badge.fury.io/py/flake8-functions)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/flake8-functions)
 
@@ -79,7 +77,7 @@ that exceeds max allowed length 20
 
 ## Code prerequisites
 
-1. Python 3.7+;
+1. Python 3.10+ (tested up to 3.14).
 
 ## Contributing
 
@@ -93,8 +91,9 @@ We would love you to contribute to our project. It's simple:
 
 Here are useful tips:
 
-* You can run all checks and tests with `make check`.
-  Please do it before TravisCI does.
+* The project uses [uv](https://docs.astral.sh/uv/). Run `make install` once,
+  then `make check` to run all checks and tests before CI does.
+* Optionally enable the git hooks with `uv run pre-commit install`.
 * We use [BestDoctor python styleguide](https://github.com/best-doctor/guides/blob/master/guides/en/python_styleguide.md).
 * We respect [Django CoC](https://www.djangoproject.com/conduct/).
   Make soft, not bullshit.

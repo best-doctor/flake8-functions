@@ -1,23 +1,27 @@
+.PHONY: install test coverage types style readme requirements lock check
+
+install:
+	uv sync --all-groups
+
 test:
-	python -m pytest
+	uv run pytest
 
 coverage:
-	python -m pytest --cov=flake8_functions --cov-report=xml
+	uv run pytest --cov --cov-report=term-missing --cov-report=xml
 
 types:
-	mypy .
+	uv run mypy .
 
 style:
-	flake8 .
+	uv run flake8 .
 
 readme:
-	mdl README.md
+	npx markdownlint-cli2 "**/*.md"
 
 requirements:
-	safety check -r requirements_dev.txt
+	uv run pip-audit --skip-editable
 
-check:
-	make style
-	make types
-	make test
-	make requirements
+lock:
+	uv lock
+
+check: style types test requirements

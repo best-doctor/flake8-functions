@@ -1,7 +1,6 @@
 import ast
-from typing import Tuple, Union
 
-AnyFuncdef = Union[ast.FunctionDef, ast.AsyncFunctionDef]
+from flake8_functions.type_defs import AnyFuncdef, FunctionError
 
 
 def get_returns_amount_for(func_def: AnyFuncdef) -> int:
@@ -16,7 +15,10 @@ def get_returns_amount_for(func_def: AnyFuncdef) -> int:
     return returns_amount
 
 
-def get_returns_amount_error(func_def: AnyFuncdef, max_returns_amount: int) -> Tuple[int, int, str]:
+def get_returns_amount_error(
+    func_def: AnyFuncdef,
+    max_returns_amount: int,
+) -> FunctionError | None:
     returns_amount = get_returns_amount_for(func_def)
     if returns_amount > max_returns_amount:
         return (
@@ -25,3 +27,4 @@ def get_returns_amount_error(func_def: AnyFuncdef, max_returns_amount: int) -> T
             f'CFQ004 Function "{func_def.name}" has {returns_amount} returns'
             f' that exceeds max allowed {max_returns_amount}',
         )
+    return None
